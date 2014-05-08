@@ -7,7 +7,7 @@ module Papercrop
 	    array = [ :crop_x, :crop_y, :crop_w, :crop_h, :original_w, :original_h, :box_w, :aspect, 
 	              :min_size, :max_size, :cropped_geometries]
 	    array = array.collect {|a| "#{attachment_name}_#{a}"}
-	    params.require(:user).permit(array)
+	    return array
 	  end
 
 	end

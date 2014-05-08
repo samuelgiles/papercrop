@@ -18,22 +18,17 @@
 
    provided that the attachment name is `avatar`.
    
-1. If using **Rails 4** , add this:
+1. If using **Rails 4** , `cropping_params(:avatar)` outputs a list of parameters being used by papercrop, where `:avatar` is the name of attachment as defined in your model. You can use this helper in two ways:
     
-        cropping_params(:avatar)
-
-    where `:avatar` is the name of attachment as defined in your model. You can use this helper in two ways:
-    
-        @user.update_attributes(cropping_params(:avatar)
+        @user.update_attributes(params.require(:user).permit( cropping_params(:avatar) )
         
     or
     
         def user_params
-          params.require(:user).permit(:email,:password,:password_confirmation)
-          cropping_params(:avatar)
+          params.require(:user).permit(:email,:password,:password_confirmation,cropping_params(:avatar))
         end
     
-    The difference is that the former only allows cropping paramters through, which is useful if you are using a seperate cropping page. The       later is useful if the cropping box is somehow integrated with another form.
+    The difference is that the former only allows cropping paramters through, which is useful if you are using a seperate cropping page. The later is useful if the cropping form is somehow integrated with another form.
     
 1. Includes minified resources. Saves an additional ~30kB.
 
