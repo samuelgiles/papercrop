@@ -50,7 +50,7 @@ module Papercrop
         definitions[attachment_name][:processors] ||= []
         definitions[attachment_name][:processors] << :cropper
 
-        after_update :"reprocess_to_crop_#{attachment_name}_attachment"
+        before_update :"reprocess_to_crop_#{attachment_name}_attachment"
       end
     end
 
@@ -107,10 +107,9 @@ module Papercrop
         # @param  attachment_name [Symbol]
         def reprocess_cropped_attachment(attachment_name)
           if cropping?(attachment_name)
-            attachment_instance = send(attachment_name)
+            #Could we actually use self.send("#{attachment_name}=", self.send(attachment_name))?
+            attachment_instance = self.send(attachment_name)
             attachment_instance.assign(attachment_instance)
-            attachment_instance.save
-
             reset_crop_attributes_of(attachment_name)
           end
         end
