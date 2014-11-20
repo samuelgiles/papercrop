@@ -51,6 +51,7 @@ module Papercrop
         definitions[attachment_name][:processors] = definitions[attachment_name][:processors].unshift(:cropper)
 
         before_update :"reprocess_to_crop_#{attachment_name}_attachment"
+        before_create :"reprocess_to_crop_#{attachment_name}_attachment"
       end
     end
 
