@@ -59,7 +59,7 @@ module Papercrop
 
       # Asks if the attachment received a crop process
       # @param  attachment_name [Symbol]
-      # 
+      #
       # @return [Boolean]
       def cropping?(attachment_name)
         !self.send(:"#{attachment_name}_crop_x").blank? &&
@@ -77,7 +77,7 @@ module Papercrop
       def image_geometry(attachment_name, style = :original)
         @geometry ||= {}
         path = (self.send(attachment_name).options[:storage] == :s3) ? (((self.send(attachment_name).options[:s3_protocol] == "") ? "http:" : "") + self.send(attachment_name).url(style)) : self.send(attachment_name).path(style)
-        @geometry[style] ||= Paperclip::Geometry.from_file(path)
+        @geometry[style] ||= Paperclip::Geometry.from_file(path.to_s.sub('https://', 'http://'))
       end
 
 
@@ -129,7 +129,7 @@ end
 
 
 # Mongoid support
-if defined? Mongoid::Document 
+if defined? Mongoid::Document
   Mongoid::Document::ClassMethods.module_eval do
     include Papercrop::ModelExtension::ClassMethods
   end
